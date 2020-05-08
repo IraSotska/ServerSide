@@ -1,7 +1,9 @@
 package com.app.controllers;
 
 import com.app.db.DBService;
+import com.app.entities.Customer;
 import com.app.entities.UserAccount;
+import com.app.utils.AppUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,16 +20,22 @@ public class LoginController extends HttpServlet {
 
     private DBService dbService = DBService.getDbServiceInstance();
 
-    private UserAccount userAccount = new UserAccount();
     private boolean checkPassword;
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
 
+//        Customer customer = new Customer("Ryba", "Sotska", "888", "ryba.com", "1313131313");
+//        customer.setUserRole("admin");
+//
+//        try {
+//            dbService.addCustomer(customer);
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+
         String pass = request.getParameter("password");
         String email = request.getParameter("email");
-
-        HttpSession session = request.getSession();
 
         try {
             checkPassword = dbService.checkPasswod(email, pass);
@@ -38,8 +46,7 @@ public class LoginController extends HttpServlet {
         }
 
         if(checkPassword) {
-            userAccount.setCustomer(dbService.getCustomerInfo(email));
-            session.setAttribute("loginedUser", userAccount);
+            AppUtils.setUserAccount(request, email);
         }
 
         System.out.println("PASSWORD " + pass + "EMAIL " + email);

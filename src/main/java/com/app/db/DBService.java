@@ -2,6 +2,7 @@ package com.app.db;
 
 import com.app.entities.Customer;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class DBService {
 
@@ -155,4 +156,35 @@ public class DBService {
         }
        return customer;
     }
+
+    public ArrayList<Customer> getAllUsersInfo() {
+
+        ArrayList<Customer> customers = new ArrayList<>();
+
+        try {
+            Statement statement = connection.createStatement();
+
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM users");
+
+            while (resultSet.next()) {
+
+                Customer customer = new Customer();
+
+                customer.setName(resultSet.getString("firstName"));
+                customer.setSurName(resultSet.getString("lastName"));
+                customer.setPhone(resultSet.getString("phone"));
+                customer.setEmail(resultSet.getString("email"));
+                customer.setPassword(resultSet.getString("password"));
+                customer.setUserRole(resultSet.getString("userRole"));
+
+                customers.add(customer);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Cant read list of customers.");
+        }
+
+        return customers;
+    }
+
 }

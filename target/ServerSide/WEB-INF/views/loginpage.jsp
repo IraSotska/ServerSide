@@ -1,11 +1,11 @@
 
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <title>Log In</title>
 </head>
 <body>
-<form action="./login" method="post">
+<form method="post">
 
     <label for="email">Email: </label>
     <input type="text" name="email" id="email">
